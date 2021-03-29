@@ -70,7 +70,7 @@ var forecastHumidityEl = document.createElement("p");
         })
     });
 }
-
+//Button functions
 searchEl.addEventListener("click", function () {
 var searchTerm = inputEl.value;
     getWeather(searchTerm);
