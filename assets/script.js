@@ -11,8 +11,7 @@ function initPage() {
     let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
     console.log(searchHistory);
 
-
-    //Weather displays through this API with a key from OpenWeather
+     //Weather displays through this API with a key from OpenWeather
     const APIKey = "fa951a35553c131729e62bc93edb34ca";
     function getWeather(cityName) {
         let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIKey;
@@ -38,4 +37,33 @@ function initPage() {
                         UVIndex.innerHTML = response.data[0].value;
                         currentUVEl.innerHTML = "UV Index: ";
                         currentUVEl.append(UVIndex);
-                    });
+                    })
+
+    searchEl.addEventListener("click", function () {
+        const searchTerm = inputEl.value;
+        getWeather(searchTerm);
+        searchHistory.push(searchTerm);
+        localStorage.setItem("search", JSON.stringify(searchHistory));
+        renderSearchHistory();
+    })
+
+    document.querySelector('#search-city').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            const searchTerm = inputEl.value;
+            getWeather(searchTerm);
+            searchHistory.push(searchTerm);
+            localStorage.setItem("search", JSON.stringify(searchHistory));
+            renderSearchHistory();
+        }
+    });
+
+    clearEl.addEventListener("click", function () {
+        searchHistory = [];
+        renderSearchHistory();
+    })
+
+    function k2f(K) {
+        return Math.floor((K - 273.15) * 1.8 + 32);
+    }
+}
+initPage();
